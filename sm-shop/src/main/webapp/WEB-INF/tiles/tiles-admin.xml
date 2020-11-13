@@ -4,9 +4,22 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
- 	<definition name="admin-dashboard" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/home.jsp" /> 
-  	</definition>
+	<definition name="base.definition" template="/WEB-INF/layout/pageTemplate.jsp">
+		<put-attribute name="breadcrumb" value="/WEB-INF/layout/breadcrumb.jsp" />
+		<put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
+		<put-attribute name="htmlHead" value="/WEB-INF/layout/htmlHead.jsp" />
+		<put-attribute name="jsFooter" value="/WEB-INF/layout/jsfooter.jsp" />
+		<put-attribute name="mainMenu" value="/WEB-INF/layout/main-menu.jsp" />
+		<put-attribute name="navbarHeader" value="/WEB-INF/layout/navbar-header.jsp" />
+		<put-attribute name="sideNav" value="/WEB-INF/layout/sideNav.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+	<definition name="admin-dashboard" extends="base.definition">
+		<put-attribute name="body" value="/pages/admin/home.jsp" />
+	</definition>
+<!--	<definition name="admin-dashboard" template="/layout/admin/layout.jsp">-->
+<!--  		<put-attribute name="body" value="/pages/admin/home.jsp" /> -->
+<!--  	</definition>-->
  	<definition name="admin-store" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/merchant/merchant.jsp" /> 
   	</definition>

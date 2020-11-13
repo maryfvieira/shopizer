@@ -23,20 +23,20 @@ response.setDateHeader ("Expires", -1);
   
  <c:set var="lang" scope="request" value="${requestScope.locale.language}"/> 
  
- 
- <html xmlns="http://www.w3.org/1999/xhtml"> 
- 
- 
+
+ <html xmlns="http://www.w3.org/1999/xhtml">
+
+
      <head>
-     
-     
+
+
         	 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         	 	<meta charset="utf-8">
     			<title><s:message code="label.storeadministration" text="Store administration" /></title>
     			<meta name="viewport" content="width=device-width, initial-scale=1.0">
     			<meta name="description" content="">
     			<meta name="author" content="">
-    			
+
     			<script src="<c:url value="/resources/js/bootstrap/jquery.js" />"></script>
     			<script src="<c:url value="/resources/js/jquery.friendurl.min.js" />"></script>
  
