@@ -204,19 +204,19 @@
   		<put-attribute name="body" value="/pages/admin/profile/users.jsp" /> 
   	</definition>
   	
-  	<definition name="shipping-configs" template="/layout/admin/layout.jsp">
+  	<definition name="shipping-configs" extends="base.definition">
   		<put-attribute name="body" value="/pages/admin/shipping/shippingConfig.jsp" /> 
   	</definition>
   	
-  	 <definition name="shipping-methods" template="/layout/admin/layout.jsp">
+  	 <definition name="shipping-methods" extends="base.definition">
   		<put-attribute name="body" value="/pages/admin/shipping/shippingMethods.jsp" /> 
   	</definition>
   	
-  	<definition name="shipping-method" template="/layout/admin/layout.jsp">
+  	<definition name="shipping-method" extends="base.definition">
   		<put-attribute name="body" value="/pages/admin/shipping/shippingMethod.jsp" /> 
   	</definition>
   	
-  	<definition name="shipping-origin" template="/layout/admin/layout.jsp">
+  	<definition name="shipping-origin" extends="base.definition">
   		<put-attribute name="body" value="/pages/admin/shipping/shippingOrigin.jsp" /> 
   	</definition>
   	
@@ -228,11 +228,11 @@
   		<put-attribute name="body" value="/pages/admin/payment/paymentMethod.jsp" /> 
   	</definition>
   	
-  	<definition name="shipping-options" template="/layout/admin/layout.jsp">
+  	<definition name="shipping-options" extends="base.definition">
   		<put-attribute name="body" value="/pages/admin/shipping/shippingOptions.jsp" /> 
   	</definition>
   	
-  	<definition name="shipping-packaging" template="/layout/admin/layout.jsp">
+  	<definition name="shipping-packaging" extends="base.definition">
   		<put-attribute name="body" value="/pages/admin/shipping/packaging.jsp" /> 
   	</definition>
   	

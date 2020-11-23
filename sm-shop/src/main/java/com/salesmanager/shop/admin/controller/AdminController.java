@@ -36,7 +36,7 @@ public class AdminController {
 	@RequestMapping(value={"/admin/home.html","/admin/"}, method=RequestMethod.GET)
 	public String displayDashboard(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Language language = (Language)request.getAttribute("LANGUAGE");
-		
+
 		//display menu
 		Map<String,String> activeMenus = new HashMap<String,String>();
 		activeMenus.put("home", "home");

@@ -31,6 +31,9 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 	
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AdminFilter.class);
+
+	private static final String MENU_MAP = "MENUMAP";
+	private static final String MENU_MAP_2 = "MENUMAP2";
 	
 	@Inject
 	private MerchantStoreService merchantService;
@@ -54,15 +57,16 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 		
 		request.setCharacterEncoding("UTF-8");
 		@SuppressWarnings("unchecked")
-		Map<String,Menu> menus = (Map<String,Menu>) cache.getFromCache("MENUMAP");
-		
+		Map<String,Menu> menus = (Map<String,Menu>) cache.getFromCache(MENU_MAP);
+		Map<String,Menu> menus2 = (Map<String,Menu>) cache.getFromCache(MENU_MAP_2);
+
 		User user = (User)request.getSession().getAttribute(Constants.ADMIN_USER);
-		
+
 
 		String storeCode = MerchantStore.DEFAULT_STORE;
 		MerchantStore store = (MerchantStore)request.getSession().getAttribute(Constants.ADMIN_STORE);
-		
-		
+
+
 		String userName = request.getRemoteUser();
 		
 		if(userName==null) {//** IMPORTANT FOR SPRING SECURITY **//
@@ -125,60 +129,66 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 			request.getSession().setAttribute("LANGUAGE", language);
 
 		}
-		
 
 		request.setAttribute(Constants.LANGUAGE, language);
 		
 
 		if(menus==null) {
-			InputStream in = null;
-			ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
-			try {
-				in =
-					(InputStream) this.getClass().getClassLoader().getResourceAsStream("admin/menu.json");
+			menus = fillMenuCache("admin/menu.json", MENU_MAP);
+		}
 
-				Map<String,Object> data = mapper.readValue(in, Map.class);
-
-				Menu currentMenu = null;
-				
-				menus = new LinkedHashMap<String,Menu>();
-				List objects = (List)data.get("menus");
-				for(Object object : objects) {
-					Menu m = getMenu(object);
-					menus.put(m.getCode(),m);
-				}
-
-				cache.putInCache(menus,"MENUMAP");
-
-			} catch (JsonParseException e) {
-				LOGGER.error("Error while creating menu", e);
-			} catch (JsonMappingException e) {
-				LOGGER.error("Error while creating menu", e);
-			} catch (IOException e) {
-				LOGGER.error("Error while creating menu", e);
-			} finally {
-				if(in !=null) {
-					try {
-						in.close();
-					} catch (Exception ignore) {
-						// TODO: handle exception
-					}
-				}
-			}
-		
-		} 
+		if (menus2==null) {
+			menus2 = fillMenuCache("admin/menu2.json", MENU_MAP_2);
+		}
 		
 		
 		List<Menu> list = new ArrayList<Menu>(menus.values());
-
 		request.setAttribute("MENULIST", list);
+		request.setAttribute(MENU_MAP, menus);
 
-		
-		
-		request.setAttribute("MENUMAP", menus);
+		list = new ArrayList<Menu>(menus2.values());
+		request.setAttribute("MENULIST2", list);
+		request.setAttribute(MENU_MAP_2, menus2);
+
 		response.setCharacterEncoding("UTF-8");
 		
 		return true;
+	}
+
+	private Map<String,Menu> fillMenuCache(String jsonFilePath, String cacheKey) {
+		InputStream in = null;
+		Map<String,Menu> menus = new LinkedHashMap();
+		ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
+
+		try {
+			in = this.getClass().getClassLoader().getResourceAsStream(jsonFilePath);
+
+			Map<String,Object> data = mapper.readValue(in, Map.class);
+			List objects = (List)data.get("menus");
+			for(Object object : objects) {
+				Menu m = getMenu(object);
+				menus.put(m.getCode(),m);
+			}
+
+			cache.putInCache(menus,cacheKey);
+		} catch (JsonParseException e) {
+			LOGGER.error("Error while creating menu", e);
+		} catch (JsonMappingException e) {
+			LOGGER.error("Error while creating menu", e);
+		} catch (IOException e) {
+			LOGGER.error("Error while creating menu", e);
+		} catch (Exception e) {
+			LOGGER.error("Error while creating menu", e);
+		} finally {
+			if(in !=null) {
+				try {
+					in.close();
+				} catch (Exception ignore) {
+					// TODO: handle exception
+				}
+			}
+		}
+		return menus;
 	}
 	
 	
